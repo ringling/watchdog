@@ -1,4 +1,4 @@
-defmodule DeadMansSwitch.Server do
+defmodule Watchdog.Server do
   use GenServer
 
   ## Client API
@@ -15,16 +15,23 @@ defmodule DeadMansSwitch.Server do
     GenServer.call(server, {:all_switches})
   end
 
-  def activate(server, uuid) do
+  def reset_timer(server, uuid) do
 
+  end
+
+  def activate(server, uuid) do
+    # START TIMER
+    # SET ACTIVE TRUE
+    # SET PINGED FALSE
   end
 
   def deactivate(server, uuid) do
-
+    # SET TIMER NIL
+    # SET ACTIVE FALSE
   end
 
   def remove(server, uuid) do
-
+    # REMOVE SWITCH
   end
 
   ## Server Callbacks
@@ -38,7 +45,9 @@ defmodule DeadMansSwitch.Server do
   end
 
   def handle_call({:initialize, switch}, _from, switches) do
-    switch = %DeadMansSwitch{switch | uuid: "UUID"}
+    uuid = "UUID"
+
+    switch = %DeadMansSwitch{switch | uuid: uuid}
     switches = Map.put(switches, switch.uuid, switch)
     {:reply, switch, switches}
   end

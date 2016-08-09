@@ -1,8 +1,8 @@
-defmodule DeadMansSwitch.Mixfile do
+defmodule Watchdog.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :dead_mans_switch,
+    [app: :watchdog,
      version: "0.1.0",
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
