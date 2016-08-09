@@ -1,0 +1,2 @@
+defmodule DeadMansSwitch do
+end
