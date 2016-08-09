@@ -16,7 +16,8 @@ defmodule Watchdog.Mixfile do
 
   defp deps do
     [
-      {:quantum, ">= 1.7.1"}
+      {:quantum, ">= 1.7.1"},
+      {:uuid, "~> 1.1"}
     ]
   end
 end

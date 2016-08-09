@@ -1,9 +1,6 @@
 # Watchdog
 
-
-
-
-If a watchdog or [dead man's switch](https://en.wikipedia.org/wiki/Dead_man%27s_switch) is not triggered within a certain time limit, it will bring the apply corrective measures or notify for them to be performed.
+If a watchdog or [dead man's switch](https://en.wikipedia.org/wiki/Dead_man%27s_switch) will, if not triggered within a certain time limit, apply corrective measures or notify for them to be performed on a system.
 
 This application is inspired by [deadmanssnitch](https://deadmanssnitch.com/) and will emit an event, if it doesn't receive a message(ping) within a specified time limit(countdown timer) for a specific application.
 This event can again trigger an action, e.g. sending an email or SMS or calling a callback hook.

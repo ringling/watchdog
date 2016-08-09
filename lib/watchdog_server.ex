@@ -16,7 +16,7 @@ defmodule Watchdog.Server do
   end
 
   def reset_timer(server, uuid) do
-
+    GenServer.call(server, {:reset_timer, uuid})
   end
 
   def activate(server, uuid) do
@@ -40,16 +40,32 @@ defmodule Watchdog.Server do
     {:ok, %{}}
   end
 
+  def handle_info({:timer, uuid}, switches) do
+    IO.inspect "Timer was here #{uuid}"
+    switch = fetch_switch(uuid, switches)
+    ref = Process.send_after(self(), {:timer, switch.uuid}, switch.timeout_seconds * 1000)
+    {:noreply, Map.put(switches, uuid, %DeadMansSwitch{switch | timer: ref})}
+  end
+
   def handle_call({:all_switches}, _from, switches) do
     {:reply, switches, switches}
   end
 
   def handle_call({:initialize, switch}, _from, switches) do
-    uuid = "UUID"
-
-    switch = %DeadMansSwitch{switch | uuid: uuid}
+    switch = %DeadMansSwitch{switch | uuid: UUID.uuid1()}
+      |> start_timer
     switches = Map.put(switches, switch.uuid, switch)
     {:reply, switch, switches}
+  end
+
+  defp fetch_switch(uuid, switches) do
+    switches |> Map.get(uuid)
+  end
+
+  defp start_timer(%DeadMansSwitch{}=switch) do
+    server_pid = self()
+    ref = Process.send_after(server_pid, {:timer, switch.uuid}, 5000)
+    %DeadMansSwitch{switch | timer: ref}
   end
 
 end
